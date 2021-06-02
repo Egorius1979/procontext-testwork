@@ -11,16 +11,7 @@
 <script>
 export default {
   name: 'RightItems',
-  props: ['list', 'items'],
-  data () {
-    return {}
-  },
-  computed: {
-    // items () {
-    //   return this.$store.state.stateOfAllItems.filter(it => it.name.includes(this.list))
-    //     .sort((a, b) => a.name.localeCompare(b.name))
-    // }
-  }
+  props: ['items']
 }
 </script>
 

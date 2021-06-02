@@ -16,11 +16,6 @@ export default {
     return {
       listArray: this.$store.state.listArray
     }
-  },
-  computed: {
-    items () {
-      return this.$store.state.stateOfAllItems
-    }
   }
 }
 </script>

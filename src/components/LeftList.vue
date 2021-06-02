@@ -1,15 +1,17 @@
 <template>
   <div>
-    <div class="arrow"
-         :class="!unwrapped ? 'arrow-down' : 'arrow-right'"
-         @click="wrap"
-    />
-    <input type="checkbox"
-           :id="list"
-           :value="list"
-           v-model="checked"
-    >
-    <span>{{ list }}</span>
+    <div class="list-flex">
+      <div class="arrow"
+           :class="!unwrapped ? 'arrow-right' : 'arrow-down'"
+           @click="wrap"
+      />
+      <input type="checkbox"
+             :id="list"
+             :value="list"
+             v-model="checked"
+      >
+      <span>{{ list }}</span>
+    </div>
     <div v-show="unwrapped"
          class="items">
       <left-items v-for="item in items"
@@ -33,7 +35,7 @@ export default {
     return {
       checked: [],
       unwrapped: false,
-      items: new Array(Math.floor(Math.random() * 7 + 4))
+      items: new Array(Math.floor(Math.random() * 6 + 4))
         .fill('Item ').map((it, index) => it + (index + 1))
     }
   },
@@ -46,6 +48,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input[type=checkbox] {
+  transform: scale(1.5);
+  margin-right: 10px;
+}
+span {display: inline-block}
+
+.list-flex {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
 .arrow {
   display: inline-block;
   margin-right: 5px;
@@ -66,6 +80,6 @@ export default {
 }
 
 .items {
-  margin: 5px 40px;
+  margin: 5px 50px;
 }
 </style>

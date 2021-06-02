@@ -1,12 +1,9 @@
 <template>
-  <div class="list-flex">
+  <div class="item-flex">
     <input type="checkbox" :value="`${parent} ${item}`" v-model="isChecked" @change="hasChosen">
     <span>{{ item }}</span>
-    <input type="text" size="1" v-model="itemAmount" class="list-flex__item-amount" @change="setAmount">
-    <input type="color" v-model="itemColor" class="list-flex__item-color" @change="setColor">
-<!--    {{ itemAmount }}-->
-{{ itemColor }}
-{{ checked }}
+    <input type="text" size="1" v-model="itemAmount" class="item-flex__item-amount" @change="setAmount">
+    <input type="color" v-model="itemColor" class="item-flex__item-color" @change="setColor">
   </div>
 </template>
 
@@ -24,7 +21,7 @@ export default {
   },
   methods: {
     hasChosen () {
-      // this.$store.commit('SET_CURRENT_LIST', this.parent)
+      this.$store.commit('SET_CURRENT_LIST', this.parent)
 
       if (this.isChecked[0]) {
         return this.$store.commit('SET_CURRENT_ITEMS',
@@ -37,13 +34,14 @@ export default {
         this.itemAmount = 0
       }
       if (this.isChecked[0]) {
-        // this.$store.commit('SET_CURRENT_LIST', this.parent)
+        this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_AMOUNT',
           { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
       }
     },
     setColor () {
       if (this.isChecked[0]) {
+        this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_COLOR',
           { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
       }
@@ -53,8 +51,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input[type=checkbox] {
+  transform: scale(1.5);
+  margin-right: 10px;
+}
 
-.list-flex {
+.item-flex {
   display: flex;
   align-items: center;
 
@@ -65,9 +67,11 @@ export default {
   }
 
   &__item-amount {
-    width: fit-content;
-    margin-left: 50%;
+    margin-left: 20%;
     border: none;
+    @media (min-width: 1440px) {
+      margin-left: 50%;
+    }
    }
 }
 </style>

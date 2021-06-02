@@ -3,6 +3,7 @@
     <left-list v-for="list in listArray"
                :key="list"
                :list="list"
+               class="field__list"
     />
   </div>
 </template>
@@ -17,9 +18,7 @@ export default {
     return {
       listArray: this.$store.state.listArray
     }
-  },
-  methods: {}
-
+  }
 }
 </script>
 
@@ -29,5 +28,9 @@ export default {
   padding: 2rem;
   min-height: 80vh;
   width: 40%;
+
+  &__list {
+    margin-bottom: 1rem;
+  }
 }
 </style>

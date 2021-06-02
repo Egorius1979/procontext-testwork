@@ -3,13 +3,13 @@
       <div class="right-list__title-button">
         <span>{{ list }}</span>
         <div v-if="items.length">
-          <button v-if="!mixedItems" @click="mixItems">Перемешать</button>
+          <button v-if="!isMixed" @click="mixItems">Перемешать</button>
           <button v-else @click="sortItems">Сортировать</button>
         </div>
       </div>
-      <right-items v-if="!mixedItems" :list="list" :items="items"/>
-      <div v-else class="item-flex">
-        <ul v-for="unit in mixedItems" :key="unit.id">
+      <right-items v-if="!isMixed" :items="items"/>
+      <div id="mixed-items" v-else class="item-flex">
+        <ul v-for="unit in mixedState" :key="unit.id">
           <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"/>
         </ul>
       </div>
@@ -36,29 +36,26 @@ export default {
     },
     currentList () {
       return this.$store.state.currentList
-    },
-    mixedItems: {
-      get () {
-        if (this.isMixed) {
-          return this.items.reduce((acc, rec) => {
-            const itemsArray = new Array(rec.amount).fill(null)
-              .map((it, index) => ({ id: `${rec.name}${index + 1}`, color: rec.color }))
-            console.log(acc)
-            return [...acc, ...itemsArray]
-          }, []).sort(() => Math.random() - 0.5)
-        }
-        return null
-      },
-      set () {
-      }
     }
   },
   methods: {
     mixItems () {
       this.isMixed = true
+      this.mixedState = this.items.reduce((acc, rec) => {
+        const itemsArray = new Array(rec.amount).fill(null)
+          .map((it, index) => ({ id: `${rec.name}${index + 1}`, color: rec.color }))
+        return [...acc, ...itemsArray]
+      }, []).sort(() => Math.random() - 0.5)
     },
     sortItems () {
       this.isMixed = false
+    }
+  },
+  watch: {
+    items () {
+      if (this.currentList === this.list && this.isMixed) {
+        this.mixItems()
+      }
     }
   }
 }
