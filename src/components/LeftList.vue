@@ -19,7 +19,6 @@
                   :checked="checked[0]"
       />
     </div>
-    {{checked}}
   </div>
 </template>
 

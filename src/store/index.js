@@ -15,6 +15,9 @@ export default new Vuex.Store({
     },
     DELETE_ITEM (state, item) {
       state.stateOfAllItems = state.stateOfAllItems.filter(it => it.name !== item)
+    },
+    CHANGE_AMOUNT (state, currentAmount) {
+      state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentAmount.name), currentAmount]
     }
   },
   actions: {},

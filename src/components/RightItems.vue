@@ -11,20 +11,20 @@
 <script>
 export default {
   name: 'RightItems',
-  props: ['list'],
+  props: ['list', 'items'],
   data () {
     return {}
   },
   computed: {
-    items () {
-      return this.$store.state.stateOfAllItems.filter(it => it.name.includes(this.list))
-        .sort((a, b) => a.name.localeCompare(b.name))
-    }
+    // items () {
+    //   return this.$store.state.stateOfAllItems.filter(it => it.name.includes(this.list))
+    //     .sort((a, b) => a.name.localeCompare(b.name))
+    // }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 ul {
   list-style: none;
   margin: 0;

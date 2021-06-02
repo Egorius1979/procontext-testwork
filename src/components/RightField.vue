@@ -4,7 +4,6 @@
                 :key="list"
                 :list="list"
     />
-
   </div>
 </template>
 
