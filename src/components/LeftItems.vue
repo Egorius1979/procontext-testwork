@@ -3,9 +3,10 @@
     <input type="checkbox" :value="`${parent} ${item}`" v-model="isChecked" @change="hasChosen">
     <span>{{ item }}</span>
     <input type="text" size="1" v-model="itemAmount" class="list-flex__item-amount" @change="setAmount">
-    <input type="color" :value="itemColor" class="list-flex__item-color">
+    <input type="color" v-model="itemColor" class="list-flex__item-color" @change="setColor">
 <!--    {{ itemAmount }}-->
-<!--    {{ itemColor }}  {{ checked }}-->
+{{ itemColor }}
+{{ checked }}
   </div>
 </template>
 
@@ -23,18 +24,27 @@ export default {
   },
   methods: {
     hasChosen () {
+      // this.$store.commit('SET_CURRENT_LIST', this.parent)
+
       if (this.isChecked[0]) {
         return this.$store.commit('SET_CURRENT_ITEMS',
           { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
       }
-      return this.$store.commit('DELETE_ITEM', `${this.parent} ${this.item}`)
+      this.$store.commit('DELETE_ITEM', `${this.parent} ${this.item}`)
     },
     setAmount () {
       if (this.itemAmount <= 0) {
         this.itemAmount = 0
       }
       if (this.isChecked[0]) {
+        // this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_AMOUNT',
+          { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
+      }
+    },
+    setColor () {
+      if (this.isChecked[0]) {
+        this.$store.commit('CHANGE_COLOR',
           { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
       }
     }

@@ -25,7 +25,8 @@ export default {
   props: ['list'],
   data () {
     return {
-      isMixed: false
+      isMixed: false,
+      mixedState: null
     }
   },
   computed: {
@@ -33,12 +34,16 @@ export default {
       return this.$store.state.stateOfAllItems.filter(it => it.name.includes(this.list))
         .sort((a, b) => a.name.localeCompare(b.name))
     },
+    currentList () {
+      return this.$store.state.currentList
+    },
     mixedItems: {
       get () {
         if (this.isMixed) {
           return this.items.reduce((acc, rec) => {
             const itemsArray = new Array(rec.amount).fill(null)
               .map((it, index) => ({ id: `${rec.name}${index + 1}`, color: rec.color }))
+            console.log(acc)
             return [...acc, ...itemsArray]
           }, []).sort(() => Math.random() - 0.5)
         }

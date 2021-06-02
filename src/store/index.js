@@ -8,6 +8,7 @@ export default new Vuex.Store({
     listArray: new Array(5).fill('List ')
       .map((it, index) => it + (index + 1)),
     stateOfAllItems: []
+    // currentList: ''
   },
   mutations: {
     SET_CURRENT_ITEMS (state, item) {
@@ -16,9 +17,15 @@ export default new Vuex.Store({
     DELETE_ITEM (state, item) {
       state.stateOfAllItems = state.stateOfAllItems.filter(it => it.name !== item)
     },
-    CHANGE_AMOUNT (state, currentAmount) {
-      state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentAmount.name), currentAmount]
+    CHANGE_AMOUNT (state, currentItem) {
+      state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentItem.name), currentItem]
+    },
+    CHANGE_COLOR (state, currentItem) {
+      state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentItem.name), currentItem]
     }
+    // SET_CURRENT_LIST (state, currentList) {
+    //   state.currentList = currentList
+    // }
   },
   actions: {},
   modules: {}
