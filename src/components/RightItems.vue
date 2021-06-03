@@ -2,7 +2,7 @@
   <div>
     <ul v-for="item in items" :key="item.name" class="item-flex">
       <ul v-for="unit in item.amount" :key="unit" class="">
-        <li :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}"/>
+        <li :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}" @click="reduceAmount(item)"/>
       </ul>
     </ul>
   </div>
@@ -11,7 +11,12 @@
 <script>
 export default {
   name: 'RightItems',
-  props: ['items']
+  props: ['items'],
+  methods: {
+    reduceAmount (item) {
+      this.$store.commit('REDUCE_AMOUNT', { name: item.name, amount: item.amount - 1, color: item.color })
+    }
+  }
 }
 </script>
 

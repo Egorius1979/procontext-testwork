@@ -14,9 +14,9 @@
     </div>
     <div v-show="unwrapped"
          class="items">
-      <left-items v-for="item in items"
-                  :item="item"
+      <left-items v-for="item in itemsLabelArray"
                   :key="item"
+                  :item="item"
                   :parent="list"
                   :checked="checked[0]"
       />
@@ -35,7 +35,7 @@ export default {
     return {
       checked: [],
       unwrapped: false,
-      items: new Array(Math.floor(Math.random() * 6 + 4))
+      itemsLabelArray: new Array(Math.floor(Math.random() * 6 + 4))
         .fill('Item ').map((it, index) => it + (index + 1))
     }
   },
