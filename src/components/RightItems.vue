@@ -1,8 +1,15 @@
 <template>
   <div>
-    <ul v-for="item in items" :key="item.name" class="item-flex">
-      <ul v-for="unit in item.amount" :key="unit" class="">
-        <li :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}" @click="reduceAmount(item)"/>
+    <ul v-for="item in items"
+        :key="item.name"
+        class="item-flex"
+    >
+      <ul v-for="unit in item.amount"
+          :key="unit"
+      >
+        <li :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}"
+            @click="reduceAmount(item)"
+        />
       </ul>
     </ul>
   </div>

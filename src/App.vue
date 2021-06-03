@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,7 +35,10 @@ export default {
   justify-content: space-between;
 }
 .container {
-  width: 70%;
-  margin: 0 auto;
+  margin: 0 4rem;
+  @media (min-width: 1440px) {
+    width: 70vw;
+    margin: 0 auto;
+  }
 }
 </style>

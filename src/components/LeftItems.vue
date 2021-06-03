@@ -1,9 +1,25 @@
 <template>
   <div class="item-flex">
-    <input type="checkbox" :value="`${parent} ${item}`" v-model="isChecked" @change="hasChosen">
-    <span>{{ item }}</span>
-    <input type="text" size="2" :value="amount || itemAmount"  class="item-flex__item-amount" @change="setAmount($event)" >
-    <input type="color" v-model="itemColor" class="item-flex__item-color" @change="setColor">
+    <input type="checkbox"
+           :id="parent+item"
+           :value="`${parent} ${item}`"
+           v-model="isChecked"
+           @change="hasChosen"
+    >
+    <label :for="parent+item">
+      {{ item }}
+    </label>
+    <input type="text"
+           size="2"
+           :value="amount || itemAmount"
+           class="item-flex__item-amount"
+           @change="setAmount($event)"
+    >
+    <input type="color"
+           v-model="itemColor"
+           class="item-flex__item-color"
+           @change="setColor"
+    >
   </div>
 </template>
 
@@ -27,10 +43,8 @@ export default {
     }
   },
   methods: {
-    toNull () {
-      this.itemAmount = 0
-    },
     hasChosen () {
+      this.$store.commit('DELETE_ITEM', `${this.parent} ${this.item}`)
       this.$store.commit('SET_CURRENT_LIST', this.parent)
 
       if (this.isDeletedFromMixed) {
@@ -38,24 +52,22 @@ export default {
       }
 
       if (this.isChecked[0]) {
+        this.$emit('itemIsChecked', this.item, true)
         return this.$store.commit('SET_CURRENT_ITEMS',
           { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
       }
-      this.$store.commit('DELETE_ITEM', `${this.parent} ${this.item}`)
+      this.$emit('itemIsChecked', this.item, false)
     },
     setAmount (e) {
       if (this.isDeletedFromMixed) {
         this.$store.commit('SET_IS_DELETED_FROM_MIXED', false)
       }
-      if (+e.target.value <= 0) {
-        this.itemAmount = 0
-      } else {
-        this.itemAmount = +e.target.value
-      }
+
+      this.itemAmount = +e.target.value > 0 ? +e.target.value : 0
       if (this.isChecked[0]) {
         this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_AMOUNT',
-          { name: `${this.parent} ${this.item}`, amount: +e.target.value, color: this.itemColor })
+          { name: `${this.parent} ${this.item}`, amount: this.itemAmount, color: this.itemColor })
       }
     },
     setColor () {
@@ -71,6 +83,10 @@ export default {
       if (value === 0) {
         this.itemAmount = 0
       }
+    },
+    checked (value) {
+      this.isChecked = value[0] ? [`${this.parent} ${this.item}`] : []
+      this.hasChosen()
     }
   }
 }
@@ -93,7 +109,7 @@ input[type=checkbox] {
   }
 
   &__item-amount {
-    margin-left: 20%;
+    margin-left: 30%;
     border: none;
     @media (min-width: 1440px) {
       margin-left: 50%;

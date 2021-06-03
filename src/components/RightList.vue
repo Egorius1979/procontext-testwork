@@ -7,10 +7,19 @@
           <button v-else @click="sortItems">Сортировать</button>
         </div>
       </div>
-      <right-items v-if="!isMixed" :items="items"/>
-      <div id="mixed-items" v-else class="item-flex">
-        <ul v-for="unit in mixedState" :key="unit.id">
-          <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}" @click="reduceAmount(unit)"/>
+      <right-items v-if="!isMixed"
+                   :items="items"
+      />
+      <div v-else
+           id="mixed-items"
+           class="item-flex"
+      >
+        <ul v-for="unit in mixedState"
+            :key="unit.id"
+        >
+          <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"
+              @click="reduceAmount(unit)"
+          />
         </ul>
       </div>
     </div>
