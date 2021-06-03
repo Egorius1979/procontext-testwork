@@ -52,9 +52,6 @@ export default {
     },
     sortItems () {
       this.isMixed = false
-      if (this.isDeletedFromMixed) {
-        this.$store.commit('SET_IS_DELETED_FROM_MIXED', false)
-      }
     },
     reduceAmount (item) {
       if (!this.isDeletedFromMixed) {
