@@ -9,7 +9,8 @@ export default new Vuex.Store({
       .map((it, index) => it + (index + 1)),
     stateOfAllItems: [],
     currentList: '',
-    isDeletedFromMixed: false
+    isDeletedFromMixed: false,
+    newColorInMixed: null
   },
   mutations: {
     SET_CURRENT_ITEMS (state, item) {
@@ -22,7 +23,8 @@ export default new Vuex.Store({
       state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentItem.name), currentItem]
     },
     CHANGE_COLOR (state, currentItem) {
-      state.stateOfAllItems = [...state.stateOfAllItems.filter(it => it.name !== currentItem.name), currentItem]
+      state.stateOfAllItems = state.stateOfAllItems.map(it => it.name === currentItem.name ? { ...it, color: currentItem.color } : it)
+      state.newColorInMixed = currentItem
     },
     SET_CURRENT_LIST (state, currentList) {
       state.currentList = currentList

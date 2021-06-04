@@ -20,6 +20,7 @@ export default {
   props: ['items'],
   methods: {
     reduceAmount (item) {
+      this.$store.commit('SET_CURRENT_LIST', this.list)
       this.$store.commit('REDUCE_AMOUNT', { name: item.name, amount: item.amount - 1, color: item.color })
     }
   }

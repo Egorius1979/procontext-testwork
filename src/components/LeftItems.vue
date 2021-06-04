@@ -74,7 +74,7 @@ export default {
       if (this.isChecked[0]) {
         this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_COLOR',
-          { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
+          { name: `${this.parent} ${this.item}`, color: this.itemColor })
       }
     }
   },

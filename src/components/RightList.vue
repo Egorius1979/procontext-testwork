@@ -1,28 +1,28 @@
 <template>
-    <div class="right-list">
-      <div class="right-list__title-button">
-        <span>{{ list }}</span>
-        <div v-if="items.filter(it => it.amount > 0).length > 1">
-          <button v-if="!isMixed" @click="mixItems">Перемешать</button>
-          <button v-else @click="sortItems">Сортировать</button>
-        </div>
-      </div>
-      <right-items v-if="!isMixed"
-                   :items="items"
-      />
-      <div v-else
-           id="mixed-items"
-           class="item-flex"
-      >
-        <ul v-for="unit in mixedState"
-            :key="unit.id"
-        >
-          <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"
-              @click="reduceAmount(unit)"
-          />
-        </ul>
+  <div class="right-list">
+    <div class="right-list__title-button">
+      <span>{{ list }}</span>
+      <div v-if="items.filter(it => it.amount > 0).length > 1">
+        <button v-if="!isMixed" @click="mixItems">Перемешать</button>
+        <button v-else @click="sortItems">Сортировать</button>
       </div>
     </div>
+    <right-items v-if="!isMixed"
+                 :items="items"
+    />
+    <div v-else
+         id="mixed-items"
+         class="item-flex"
+    >
+      <ul v-for="unit in mixedState"
+          :key="unit.id"
+      >
+        <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"
+            @click="reduceAmount(unit)"
+        />
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -48,11 +48,15 @@ export default {
     },
     isDeletedFromMixed () {
       return this.$store.state.isDeletedFromMixed
+    },
+    newColorInMixed () {
+      return this.$store.state.newColorInMixed
     }
   },
   methods: {
     mixItems () {
       this.isMixed = true
+
       this.mixedState = this.items.reduce((acc, rec) => {
         const itemsArray = new Array(rec.amount).fill(null)
           .map((it, index) => ({ name: rec.name, id: `${rec.name}${index + 1}`, color: rec.color }))
@@ -63,6 +67,7 @@ export default {
       this.isMixed = false
     },
     reduceAmount (item) {
+      this.$store.commit('SET_CURRENT_LIST', this.list)
       if (!this.isDeletedFromMixed) {
         this.$store.commit('SET_IS_DELETED_FROM_MIXED', true)
       }
@@ -72,8 +77,16 @@ export default {
 
       this.mixedState = this.mixedState.filter(it => it.id !== item.id)
     }
+
   },
   watch: {
+    newColorInMixed () {
+      if (!this.isDeletedFromMixed) {
+        this.$store.commit('SET_IS_DELETED_FROM_MIXED', true)
+      }
+      this.mixedState = this.mixedState?.map(it => it.name === this.newColorInMixed.name
+        ? { ...it, color: this.newColorInMixed.color } : it)
+    },
     items () {
       if (this.currentList === this.list && this.isMixed && !this.isDeletedFromMixed) {
         this.mixItems()
@@ -94,6 +107,7 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
+
   button {
     padding: 5px 7px;
     background: #00acc1;
