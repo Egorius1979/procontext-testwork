@@ -20,6 +20,10 @@
            class="item-flex__item-color"
            @change="setColor"
     >
+
+    {{amount}}
+    {{itemAmount}}
+
   </div>
 </template>
 
@@ -54,7 +58,7 @@ export default {
       if (this.isChecked[0]) {
         this.$emit('itemIsChecked', this.item, true)
         return this.$store.commit('SET_CURRENT_ITEMS',
-          { name: `${this.parent} ${this.item}`, amount: +this.itemAmount, color: this.itemColor })
+          { name: `${this.parent} ${this.item}`, amount: this.itemAmount, color: this.itemColor })
       }
       this.$emit('itemIsChecked', this.item, false)
     },
@@ -62,8 +66,8 @@ export default {
       if (this.isDeletedFromMixed) {
         this.$store.commit('SET_IS_DELETED_FROM_MIXED', false)
       }
-
       this.itemAmount = +e.target.value > 0 ? +e.target.value : 0
+
       if (this.isChecked[0]) {
         this.$store.commit('SET_CURRENT_LIST', this.parent)
         this.$store.commit('CHANGE_AMOUNT',
@@ -80,8 +84,8 @@ export default {
   },
   watch: {
     amount (value) {
-      if (value === 0) {
-        this.itemAmount = 0
+      if (value >= 0) {
+        this.itemAmount = value
       }
     },
     checked (value) {
