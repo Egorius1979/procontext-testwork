@@ -1,16 +1,18 @@
 <template>
   <div>
-    <ul v-for="item in items"
-        :key="item.name"
-        class="item-flex"
-    >
-      <li v-for="unit in item.amount"
-          :key="unit"
-          :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}"
-          @click="reduceAmount(item)"
+      <transition-group name="list"
+                        class="item-flex"
+                        tag="ul"
+                        v-for="item in items"
+                        :key="item.name"
       >
-      </li>
-    </ul>
+        <li v-for="unit in item.amount"
+            :key="unit"
+            :style="{width: '20px', height: '20px', background: item.color, margin: '1px'}"
+            @click="reduceAmount(item)"
+        >
+        </li>
+      </transition-group>
   </div>
 </template>
 
@@ -39,4 +41,18 @@ ul {
   flex-wrap: wrap;
   margin-bottom: 5px;
 }
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-move {
+  transition: transform 0.8s ease;
+}
+
 </style>

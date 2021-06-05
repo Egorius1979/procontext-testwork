@@ -10,17 +10,17 @@
     <right-items v-if="!isMixed"
                  :items="items"
     />
-    <div v-else
-         id="mixed-items"
-         class="item-flex"
-    >
-      <ul v-for="unit in mixedState"
-          :key="unit.id"
-      >
-        <li :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"
-            @click="reduceAmount(unit)"
-        />
-      </ul>
+    <div v-else id="mixed-items">
+        <transition-group name="list"
+                          class="item-flex"
+                          tag="ul"
+        >
+          <li v-for="unit in mixedState"
+              :key="unit.id"
+              :style="{width: '20px', height: '20px', background: unit.color, margin: '1px'}"
+              @click="reduceAmount(unit)"
+          />
+        </transition-group>
     </div>
   </div>
 </template>
@@ -117,5 +117,15 @@ export default {
     margin-bottom: 5px;
     cursor: pointer;
   }
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
 }
 </style>
