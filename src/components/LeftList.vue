@@ -5,14 +5,18 @@
            :class="!unwrapped ? 'arrow-right' : 'arrow-down'"
            @click="wrap"
       />
-      <input type="checkbox"
-             :id="list"
-             :value="list"
-             v-model="checked"
-      >
-      <label :for="list">
-        {{ list }}
-      </label>
+      <div :class="isPartly ? 'checkbox' : ''">
+        <input type="checkbox"
+               :id="list"
+               :value="list"
+               v-model="checked"
+
+        >
+        <label :for="list">
+          {{ list }}
+        </label>
+      </div>
+
     </div>
     <div v-show="unwrapped"
          class="items"
@@ -41,7 +45,8 @@ export default {
       unwrapped: false,
       itemsLabelArray: new Array(Math.floor(Math.random() * 6 + 4))
         .fill('Item ').map((it, index) => it + (index + 1)),
-      checkedItems: []
+      checkedItems: [],
+      isPartly: false
     }
   },
   methods: {
@@ -59,9 +64,15 @@ export default {
   watch: {
     checkedItems () {
       if (this.checkedItems.length === this.itemsLabelArray.length) {
+        this.isPartly = false
         this.checked = [this.list]
       } else if (!this.checkedItems.length && this.checked[0]) {
+        this.isPartly = false
         this.checked = []
+      } else if (this.checkedItems.length > 0) {
+        this.isPartly = true
+      } else {
+        this.isPartly = false
       }
     }
   }
@@ -72,7 +83,27 @@ export default {
 
 input[type=checkbox] {
   transform: scale(1.5);
-  margin-right: 10px;
+}
+
+.checkbox {
+  position:relative;
+  padding-left:25px;
+}
+.checkbox input[type=checkbox] {
+  display:none;
+}
+.checkbox label:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  outline: 1px solid #939598;
+  border: 5px solid #fff;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background-color:#000;
 }
 
 .list-flex {

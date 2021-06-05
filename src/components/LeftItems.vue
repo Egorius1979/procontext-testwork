@@ -20,10 +20,6 @@
            class="item-flex__item-color"
            @change="setColor"
     >
-
-    {{amount}}
-    {{itemAmount}}
-
   </div>
 </template>
 
