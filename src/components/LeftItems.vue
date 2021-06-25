@@ -114,6 +114,6 @@ input[type=checkbox] {
     @media (min-width: 1440px) {
       margin-left: 50%;
     }
-   }
+  }
 }
 </style>
