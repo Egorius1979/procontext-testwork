@@ -106,6 +106,7 @@ input[type=checkbox] {
     border: none;
     padding: 0;
     background: none;
+    cursor: pointer;
   }
 
   &__item-amount {
