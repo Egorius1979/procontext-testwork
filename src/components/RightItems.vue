@@ -51,6 +51,7 @@ ul {
   opacity: 0;
   transform: translateY(30px);
 }
+
 .list-move {
   transition: transform 0.8s ease;
 }
